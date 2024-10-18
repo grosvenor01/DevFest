@@ -24,5 +24,8 @@ urlpatterns = [
     path("api/login/", logine.as_view(),name="login"),
     path("api/machines/", machine_AddDelete.as_view(),name="machine_managment"),
     path("api/machines/<int:id>", machine_managment.as_view(),name="machine_managment"),
+    path('api/tasks/', Task_managment.as_view(), name='task_managment'),
+    path('api/tasks/<int:id>', Task_managment_user.as_view(), name='task_managment'),
+    path('api/affect_task/<int:id>', task_affection.as_view(), name='task_affectaation'),
     path('callback/', callback_view, name='callback'),
 ]

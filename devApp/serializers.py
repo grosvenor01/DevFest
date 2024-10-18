@@ -24,3 +24,20 @@ class machineSerializer(serializers.ModelSerializer):
     class Meta:
         model = machine
         fields = "__all__"
+
+class taskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = task
+        fields = "__all__"
+
+class taskUserSerializer(serializers.ModelSerializer):
+    User_id = user_serializer()
+    task_id = taskSerializer()
+    class Meta:
+        model = task_user
+        fields = "__all__"
+
+class taskUserSerializerSimple(serializers.ModelSerializer):
+    class Meta:
+        model = task_user
+        fields = "__all__"

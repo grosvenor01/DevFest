@@ -152,3 +152,44 @@ def callback_view(request):
         return JsonResponse({'status': 'success', 'data': data})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
+
+
+class Task_managment(APIView):
+    def get(self , request):
+        all_tasks = task.objects.all()
+        serializer = taskSerializer(all_tasks, many=True)
+        return Response(serializer.data, status=200)
+    def post(self , request):
+        serializer = taskSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data, status=201)
+        else :
+            return Response(serializer.errors, status=400)
+
+class task_affection(APIView):
+    def post(self , request , id ): #user_id
+            task_ = request.data["task"]
+            print(task_)
+            task_ = task.objects.get(id=task_)
+            worker_task = task_user.objects.create(User_id=User.objects.get(id=id) , task_id=task_ , state="pending")
+            worker_task.save()
+            serializer = taskUserSerializer(worker_task)
+            return Response(serializer.data , status = 201)
+        
+class Task_managment_user(APIView):
+    def get(self , request , id): #user id 
+        tasks_ = task_user.objects.filter(User_id=id)
+        serializer = taskUserSerializer(tasks_,many=True)
+        return Response(serializer.data , status=200)
+    def put(self , request , id):# task id 
+        try : 
+            task_ = task_user.objects.get(task_id=id)
+            serializer = taskUserSerializerSimple(task_, data = request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status = 200)
+            else : 
+                return Response(serializer.errors , status = 400)
+        except task_user.DoesNotExist : 
+            return Response({"Details":"Task Does Not Exist"}, status=400)
+        
