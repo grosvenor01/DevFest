@@ -32,9 +32,10 @@ class machine(models.Model):
                      ('CNC_Machine', 'CNC Machine'),
                      ('LeakTestMachine', 'Leak Test Machine')
                     )
+    machine_name = models.CharField(max_length=50)
     timestamp = models.DateTimeField()
     machine_type = models.CharField(max_length=30,choices=machine_types)
-    vibration_level = models.FloatField()
+    vibration_level = models.FloatField(default=0.0)
     temperature = models.IntegerField()
     power_consumation = models.FloatField()
     #we store the addtionnal json data as text and than parse it in the response (to make db scalable & structured)

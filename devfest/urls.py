@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import *
+from devApp.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +24,5 @@ urlpatterns = [
     path("api/login/", logine.as_view(),name="login"),
     path("api/machines/", machine_AddDelete.as_view(),name="machine_managment"),
     path("api/machines/<int:id>", machine_managment.as_view(),name="machine_managment"),
+    path('callback/', callback_view, name='callback'),
 ]
