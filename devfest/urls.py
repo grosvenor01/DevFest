@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/register/',register.as_view(),name="register"),
     path("api/login/", logine.as_view(),name="login"),
+    path("api/machines/", machine_AddDelete.as_view(),name="machine_managment"),
+    path("api/machines/<int:id>", machine_managment.as_view(),name="machine_managment"),
 ]
