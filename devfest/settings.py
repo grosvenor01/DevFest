@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!dms@vb3q49ldhi%)+&t-s9+85!2b2uwi%#%hvqw(qos!7s%)2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'] #just for testing using postman 
+ALLOWED_HOSTS = ['*' , "localhost"] #just for testing using postman 
 
 
 
@@ -137,7 +137,7 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CORS_ORIGIN_WHITELIST = ['http://localhost' , "https://d377-105-98-195-147.ngrok-free.app"]
+CORS_ORIGIN_WHITELIST = ['http://localhost' , "https://9212-105-101-199-138.ngrok-free.app" , "http://localhost:5173" , "http://localhost:5174"]
 CORS_ALLOW_CREDENTIALS = True
 CHANNEL_LAYERS = {
     'default': {

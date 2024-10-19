@@ -25,7 +25,11 @@ urlpatterns = [
     path("api/machines/", machine_AddDelete.as_view(),name="machine_managment"),
     path("api/machines/<int:id>", machine_managment.as_view(),name="machine_managment"),
     path('api/tasks/', Task_managment.as_view(), name='task_managment'),
+    path('api/current_tasks/', all_current_tasks, name='task_managment'),
+    path('api/all_tasks_user/', all_tasks, name='task_managment'),
     path('api/tasks/<int:id>', Task_managment_user.as_view(), name='task_managment'),
     path('api/affect_task/<int:id>', task_affection.as_view(), name='task_affectaation'),
+    path('api/Dashboard/', Production_overview, name='dashboard'),
+    path('api/maintenance/', machine_Maintenance, name='dashboard'),
     path('callback/', callback_view, name='callback'),
 ]

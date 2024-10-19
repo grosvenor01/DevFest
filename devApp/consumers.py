@@ -22,7 +22,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         for i in machine.objects.all():
             data = {
                 "machine":i.machine_name,
-                "callback_url" : "https://c929-105-98-195-147.ngrok-free.app/callback/"
+                "callback_url" : "http://129.151.234.243:8000/callback/"
             }
             print(requests.post(url , json=data))
 

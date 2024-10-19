@@ -10,8 +10,6 @@ class user_data(models.Model):
         ("Manager" , "Manager"),
         ("Worker" , "Worker")
     ))
-    def __str__(self):
-        return self.user_data
 class task(models.Model):
     task_name=models.CharField(max_length=100)
     task_description = models.TextField()
@@ -40,6 +38,7 @@ class machine(models.Model):
     power_consumation = models.FloatField()
     #we store the addtionnal json data as text and than parse it in the response (to make db scalable & structured)
     sensor_data = models.TextField(blank=True) 
+    machine_state=models.CharField(max_length=20 , choices=(('work' , 'work') , ('not work' , 'not work') ), null=True)
     def __str__(self):
         return self.machine_type 
 

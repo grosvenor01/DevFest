@@ -12,7 +12,7 @@ import json
 from datetime import datetime
 from fcm_django.models import FCMDevice
 from firebase_admin.messaging import Message, Notification
-
+from rest_framework.decorators import api_view
 
 class register(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -196,7 +196,68 @@ class Task_managment_user(APIView):
                 return Response(serializer.errors , status = 400)
         except task_user.DoesNotExist : 
             return Response({"Details":"Task Does Not Exist"}, status=400)
-        
+@api_view(('GET',))
+def all_current_tasks(request):
+    if request.method=="GET":
+        tasks = task_user.objects.filter(state="in progress")
+        serializer = taskUserSerializerSimple2(tasks , many=True)
+        print(serializer.data)
+        return Response(serializer.data , status =200)   
+    
+
+@api_view(('GET',))
+def all_tasks(request):
+    if request.method=="GET":
+        tasks = task_user.objects.all()
+        serializer = taskUserSerializerSimple2(tasks , many=True)
+        print(serializer.data)
+        return Response(serializer.data , status =200)   
+    
+@api_view(('GET',))
+def Production_overview(request):
+    if request.method=="GET":
+        machines = machine.objects.all().count()
+        machine_maintentnace = machine.objects.filter(machine_state="not work").count()
+        workers_number = user_data.objects.filter(role="Worker").count()
+        total_tasks = task.objects.all().count()
+        return Response(
+            [
+                {
+                  "name":"All machines",
+                  "number":machines,
+                },
+                {
+                  "name":"All Workers",
+                  "number":workers_number,
+                },
+                {
+                  "name":"Machines in Maintenance",
+                  "number":machine_maintentnace,
+                },
+                {
+                  "name":"Total tasks",
+                  "number":total_tasks,
+                },
+            ]  , status=200)  
+
+
+from datetime import datetime, timedelta
+from django.db.models import Count, CharField, F , Sum
+from django.db.models.functions import TruncMonth
+
+@api_view(('GET',))
+def machine_Maintenance(request):
+    if request.method == "GET":
+        four_months_ago = datetime.now() - timedelta(days=120)
+        data = (
+            maintenance.objects.filter(maintenance_date__gte=four_months_ago)
+            .annotate(month=TruncMonth('maintenance_date'))
+            .values('month')
+            .annotate(total_costs=Sum('cost'), count=Count('id')) 
+            .order_by('-month')
+        )
+        formatted_data = [{'month': item['month'], 'total_costs': item['total_costs'], 'count': item['count']} for item in data]
+        return Response(formatted_data)
 class Notifications(APIView):
     def post(self, request):
         # Create a new device to recieve notification

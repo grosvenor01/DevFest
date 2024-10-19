@@ -41,3 +41,12 @@ class taskUserSerializerSimple(serializers.ModelSerializer):
     class Meta:
         model = task_user
         fields = "__all__"
+
+class taskUserSerializerSimple2(serializers.ModelSerializer):
+    task_id = taskSerializer()
+    class Meta:
+        model = task_user
+        fields = "__all__"
+    class Meta:
+        model = task_user
+        fields = "__all__"
