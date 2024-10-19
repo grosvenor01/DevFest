@@ -289,3 +289,57 @@
         "task_id":1,
         "state":"in progress"
     }
+
+### 10. real time data handeling & visualization
+This WebSocket API provides real-time updates for sensor data from various machines. The API sends updates every 20 seconds containing information about each machine's performance metrics.
+
+## WebSocket Endpoint
+
+- **Endpoint**: ws://<your-server-url>/ws/socket-server/dady/
+- - **Response Example**:
+  - **Response Body**:
+    ```json
+    {
+    "data": [
+        {
+            "id": 4,
+            "machine_name": "welding_robot_006",
+            "timestamp": "2024-10-18T21:11:15.898000Z",
+            "machine_type": "WeldingRobot",
+            "vibration_level": 0.66,
+            "temperature": 1446,
+            "power_consumation": 5.6,
+            "sensor_data": "{'machine_id': 'welding_robot_006', 'weld_current': 182.9, 'weld_voltage': 9.7, 'weld_time': 389, 'pressure_applied': 1665, 'arm_position': {'x': 113.3, 'y': 61.1, 'z': 132.6}, 'wire_feed_rate': 5.1, 'gas_flow_rate': 43.5, 'weld_strength_estimate': 184.9}"
+        },
+        {
+            "id": 5,
+            "machine_name": "cnc_milling_004",
+            "timestamp": "2024-10-18T21:29:31.306000Z",
+            "machine_type": "CNC_Machine",
+            "vibration_level": 0.39,
+            "temperature": 66,
+            "power_consumation": 18.2,
+            "sensor_data": "{'machine_id': 'cnc_milling_004', 'spindle_speed': 3627.4, 'tool_wear_level': 87.7, 'cut_depth': 8.1, 'feed_rate': 77.5, 'coolant_flow_rate': 0.44, 'material_hardness': 197.6, 'chip_load': 0.36}"
+        },
+        {
+            "id": 6,
+            "machine_name": "leak_test_005",
+            "timestamp": "2024-10-18T21:29:35.064000Z",
+            "machine_type": "LeakTestMachine",
+            "vibration_level": 0.5,
+            "temperature": 29,
+            "power_consumation": 0.001,
+            "sensor_data": "{'machine_id': 'leak_test_005', 'pressure_drop': 0.068, 'test_duration': 24, 'status': 'pass', 'fluid_type': 'hydraulic fluid', 'seal_condition': 'warning', 'test_cycle_count': 1511}"
+        },
+        {
+            "id": 7,
+            "machine_name": "agv_003",
+            "timestamp": "2024-10-18T21:29:40.685000Z",
+            "machine_type": "AGV",
+            "vibration_level": 0.01,
+            "temperature": 41,
+            "power_consumation": 0.1,
+            "sensor_data": "{'machine_id': 'agv_003', 'location': {'x': 174.3, 'y': 195.5, 'z': 55.8}, 'battery_level': 93, 'load_weight': 1438.2, 'distance_traveled': 1987.9, 'obstacle_detection': 'no', 'navigation_status': 'en_route', 'wheel_rotation_speed': 150.9}"
+        }
+    ]
+    }
