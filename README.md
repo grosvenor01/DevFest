@@ -142,3 +142,150 @@
 - **Description**: This endpoint is intended to archive a machine instead of deleting it from the database. Currently, there is no implementation for this endpoint.
 
 ---
+
+
+### 6. Task Management
+
+- **Endpoint**: `/api/tasks/`
+- **Methods**: 
+  - `GET`: Retrieve all tasks.
+  - `POST`: Create a new task.
+
+#### GET Method
+
+- **Description**: Retrieve a list of all tasks.
+- **Response**:
+  - **Status Code**: `200 OK`
+  - **Response Body**:
+    ```json
+    [
+        {
+            "task_name": "Sample Task",
+            "task_description": "Description of the task",
+            "task_deadline": "2024-01-01T10:00:00Z",
+            "task_type": "routine"
+        },
+        ...
+    ]
+    ```
+
+#### POST Method
+
+- **Description**: Create a new task.
+- **Request Body**:
+  ```json
+  {
+      "task_name": "New Task",
+      "task_description": "Description of the new task",
+      "task_deadline": "2024-01-01T10:00:00Z",
+      "task_type": "urgent"
+  }
+- **Response Body on success**:
+    ```json
+    [
+        {
+            "task_name": "New Task",
+            "task_description": "Description of the new task",
+            "task_deadline": "2024-01-01T10:00:00Z",
+            "task_type": "urgent"
+        },
+        ...
+    ]
+
+- **Response Body on error**:
+    ```json
+    [
+        {
+            "task_name": ["This field is required."],
+            "task_description": ["This field is required."],
+            "task_deadline": ["This field is required."],
+        },
+        ...
+    ]
+
+### 7. Task Affection 
+- **Endpoint**: `/api/affect_task/<int:id>/`
+- **Methods**: 
+  - `POST`: Assign a task to a user.
+
+#### POST Method
+
+- **Description**: Assign a task to a user by ID.
+- **Request Body**:
+  ```json
+  {
+      "task": 1 
+  }
+- **Response Body on success**:
+    ```json
+    [
+        {
+            "id": 1,
+            "User_id": 1,
+            "task_id": 1,
+            "state": "pending"
+        },
+        ...
+    ]
+- **Response Body on error**:
+    ```json
+    [
+        {
+            "task": ["This field is required."],
+            "Details": "Task Does Not Exist""],
+        },
+        ...
+    ]
+    ```
+
+### 9. Task Management for Users
+
+- **Endpoint**: `/api/tasks/<int:id>/`
+- **Methods**: 
+  - `GET`: Retrieve tasks assigned to a user.
+  - `POST`: Update the state of a task.
+
+#### GET Method
+- **Description**: Retrieve tasks assigned to a specific user by user ID.
+- **Response**:
+  - **Status Code**: `200 OK`
+  - **Response Body**:
+    ```json
+    [
+    {
+        "id": 1,
+        "task_id": {
+            "id": 1,
+            "task_name": "Painting",
+            "task_description": "painting the chassis of the car",
+            "task_deadline": "2024-10-18T21:30:35Z",
+            "task_type": "routine"
+        },
+        "state": "in progress",
+        "User_id": 1
+    },
+    {
+        "id": 2,
+        "task_id": {
+            "id": 1,
+            "task_name": "Painting",
+            "task_description": "painting the chassis of the car",
+            "task_deadline": "2024-10-18T21:30:35Z",
+            "task_type": "routine"
+        },
+        "state": "in progress",
+        "User_id": 1
+    }
+    ]
+
+#### PUT Method
+- **Description**: Update the state of a task assigned to a user.
+- **Response**:
+  - **Status Code**: `200 OK`
+  - **Response Body**:
+    ```json
+    {
+        "User_id":1,
+        "task_id":1,
+        "state":"in progress"
+    }
