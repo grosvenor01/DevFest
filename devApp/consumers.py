@@ -31,6 +31,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
             try:
                 machines = await self.get_machines()
                 data = json.dumps({'data': machines})
+                # Here we should add an ai model that predict the case 
+                # and than send a notification to speicifc user depend on the case using 
+                """
+                user = User.objects.get(username=username)
+                devices = FCMDevice.objects.filter(user=user.id)
+                devices.send_message(
+                    message =Message(
+                        notification=Notification(
+                            title='Generated title ',
+                            body=f'Example : a problem happend with the machine go repair it'
+                        ),
+                    ),
+                )
+                """
                 await self.send(text_data=data)
             except Exception as e:
                 print("Error:", e)

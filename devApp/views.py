@@ -10,6 +10,10 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from datetime import datetime
+from fcm_django.models import FCMDevice
+from firebase_admin.messaging import Message, Notification
+
+
 class register(generics.GenericAPIView):
     serializer_class = RegisterSerializer
     def post(self, request, *args, **kwargs):
@@ -193,3 +197,7 @@ class Task_managment_user(APIView):
         except task_user.DoesNotExist : 
             return Response({"Details":"Task Does Not Exist"}, status=400)
         
+class Notifications(APIView):
+    def post(self, request):
+        # Create a new device to recieve notification
+        pass

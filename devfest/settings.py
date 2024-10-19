@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 from pathlib import Path
-
+from firebase_admin import initialize_app, credentials
+from google.auth import load_credentials_from_file
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'devApp',
     'knox',
+    'fcm_django',
     "corsheaders",
 ]
 MIDDLEWARE = [
@@ -142,3 +144,25 @@ CHANNEL_LAYERS = {
         'BACKEND': 'channels.layers.InMemoryChannelLayer',
     }
 }
+
+
+FCM_DJANGO_SETTINGS = {
+    "DEFAULT_FIREBASE_APP": None,
+    "APP_VERBOSE_NAME": "What ever name",
+    "ONE_DEVICE_PER_USER": False,
+    "DELETE_INACTIVE_DEVICES": False,
+}
+
+class CustomFirebaseCredentials(credentials.ApplicationDefault):
+    def __init__(self, account_file_path: str):
+        super().__init__()
+        self._account_file_path = account_file_path
+
+    def _load_credential(self):
+        if not self._g_credential:
+            self._g_credential, self._project_id = load_credentials_from_file(self._account_file_path,
+                                                                              scopes=credentials._scopes)
+            
+CUSTOM_GOOGLE_APPLICATION_CREDENTIALS = 'key.json'
+custom_credentials = CustomFirebaseCredentials('CUSTOM_GOOGLE_APPLICATION_CREDENTIALS')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, name='messaging')
